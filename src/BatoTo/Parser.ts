@@ -85,16 +85,16 @@ export class Parser {
         const chapters: Chapter[] = []
 
         const theArray = $('.item', $('.main')).toArray().reverse()
-        theArray.forEach((obj: any, i: number) =>  {
+        theArray.forEach((obj: any) =>  {
             const chapterTile: any = $('a', $(obj))
             const chapterId = chapterTile.attr('href')?.replace('/chapter/', '')
             const chapGroup = $(chapterTile).text().trim().split('\n').pop()?.trim()
             const chapNamePart1 = $('b', chapterTile).text()
             let chapNamePart2 = $('span', $(chapterTile)).first().text().replace(':', '').trim()
             if (chapNamePart2 == chapGroup) chapNamePart2 = ''
-            const chapter = $('b', chapterTile).text()
-            const chapNum = i+1
-            const volume = Number(chapter?.split('chapter')[0]?.replace('volume', '').trim())
+            const chapter = $('b', chapterTile).text().toLowerCase().split(':')[0].split('chapter')
+            const chapNum = Number(chapter[1].trim())
+            const volume = Number(chapter[0].replace('volume', '').trim())
 
             const language = $('.emoji').attr('data-lang') ?? 'gb'
             const time = source.convertTime($('i.ps-3', $(obj)).text())
